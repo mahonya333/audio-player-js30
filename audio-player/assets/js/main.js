@@ -7,6 +7,7 @@ function initialization() {
     const playBtn = document.querySelector('.player__play-btn');
     const pauseBtn = document.querySelector('.player__pause-btn');
     let isPlay = false;
+    const audioWrapper = document.querySelector(".main");
     
     playBtn.addEventListener('click', playAudio);
     pauseBtn.addEventListener('click', pauseAudio);
