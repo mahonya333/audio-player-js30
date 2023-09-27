@@ -12,10 +12,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const musicArray = [
         {
-            name: 'имя',
-            img: './assets/img/dontstartnow.png',
-            executor: 'имя',
-            src: './assets/audio/dontstartnow.mp3',
+            name: 'Gealdyr - Gimle',
+            img: './assets/img/Gealdyr - Gimle.jpg',
+            executor: 'Gealdyr',
+            src: './assets/audio/Gealdyr - Gimle.mp3',
         },
         {
             name: 'Roosevelt - Alive',
@@ -24,10 +24,10 @@ window.addEventListener('DOMContentLoaded', () => {
             src: './assets/audio/Roosevelt - Alive.mp3',
         },
         {
-            name: 'имя',
-            img: './assets/img/lemonade.png',
-            executor: 'имя',
-            src: './assets/audio/beyonce.mp3',
+            name: 'Einar Selvik - Snake pit poetry',
+            img: './assets/img/Einar Selvik - Snake pit poetry.webp',
+            executor: 'Einar Selvik',
+            src: './assets/audio/Einar Selvik - Snake pit poetry.mp3',
         }
     ];
 
