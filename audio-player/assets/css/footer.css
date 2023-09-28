@@ -1,4 +1,7 @@
 .footer {
+    height: 100px;
+    border-top: 2px solid #19780f;
+    box-shadow: 0 0 20px 2px #19780f;
     padding: 1rem 0;
     background: linear-gradient(45deg, #000, 50%, #46b163, 60%, #000, 90%, #46b163);
 }

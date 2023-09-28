@@ -12,19 +12,19 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const musicArray = [
         {
-            name: 'Gealdyr - Gimle',
+            name: 'Gimle',
             img: './assets/img/Gealdyr - Gimle.jpg',
             executor: 'Gealdyr',
             src: './assets/audio/Gealdyr - Gimle.mp3',
         },
         {
-            name: 'Roosevelt - Alive',
+            name: 'Alive',
             img: './assets/img/Roosevelt - Embrance.jpg',
             executor: 'Roosevelt',
             src: './assets/audio/Roosevelt - Alive.mp3',
         },
         {
-            name: 'Einar Selvik - Snake pit poetry',
+            name: 'Snake pit poetry',
             img: './assets/img/Einar Selvik - Snake pit poetry.webp',
             executor: 'Einar Selvik',
             src: './assets/audio/Einar Selvik - Snake pit poetry.mp3',
@@ -46,10 +46,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }, false);
 
-    function initialization() {
-
-    }
-
     function playAudio() {
         playToggleBtn.querySelector('.player__play-img').innerHTML = `<path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z" />`;
         audio.play();
@@ -70,7 +66,10 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         initializtionContent();
-        playAudio();
+
+        if(isPlay) {
+            playAudio();
+        }
     }
 
     function playPrev() {
@@ -81,7 +80,10 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         initializtionContent();
-        playAudio();
+
+        if(isPlay) {
+            playAudio();
+        }
     }
 
     function initializtionContent() {
