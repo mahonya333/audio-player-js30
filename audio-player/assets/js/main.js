@@ -63,33 +63,37 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  
 
-  playerTimeSlider.addEventListener("touchstart", (e) => {
-    // Начало перемотки: сохраните начальное положение
-    const touch = e.touches[0];
-    playerTimeSlider.dataset.touchStartX = touch.clientX;
-  });
 
-  playerTimeSlider.addEventListener("touchmove", (e) => {
-    // Продолжение перемотки: вычислите смещение и обновите текущее значение
-    const touch = e.touches[0];
-    const touchStartX = parseInt(playerTimeSlider.dataset.touchStartX || 0);
-    const offsetX = touch.clientX - touchStartX;
-  
-    const sliderWidth = parseInt(
-      window.getComputedStyle(playerTimeSlider).width
-    );
-    const duration = audio.duration;
-    const newTime = (offsetX / sliderWidth) * duration;
-  
+let touchStartX = 0; // Переменная для хранения начальной позиции касания
+
+playerTimeSlider.addEventListener("touchstart", (e) => {
+  // Зафиксируем начальное положение касания
+  touchStartX = e.touches[0].clientX;
+});
+
+playerTimeSlider.addEventListener("touchmove", (e) => {
+  // Вычислим смещение по оси X и обновим значение времени
+  const touchX = e.touches[0].clientX;
+  const sliderWidth = playerTimeSlider.offsetWidth;
+  const duration = audio.duration;
+  const offsetX = touchX - touchStartX;
+
+  // Вычислим новое время в соответствии с перемещением
+  const newTime = audio.currentTime + (offsetX / sliderWidth) * duration;
+
+  // Убедимся, что новое время находится в допустимых пределах
+  if (newTime >= 0 && newTime <= duration) {
     audio.currentTime = newTime;
-  });
-  
-  playerTimeSlider.addEventListener("touchend", () => {
-    // Завершение перемотки: очистите начальное положение
-    playerTimeSlider.removeAttribute("data-touchStartX");
-  });
+  }
+
+  // Обновим начальное положение касания
+  touchStartX = touchX;
+});
+
+playerTimeSlider.addEventListener("touchend", () => {
+  // Завершение перемотки: ничего не нужно делать, но можно добавить дополнительную логику, если необходимо
+});
 
 
   
