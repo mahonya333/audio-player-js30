@@ -177,7 +177,7 @@ input[placeholder] {
 
 .player__music-img {
   width: 100%;
-  max-height: 30vh;
+  height: 30vh;
   border-radius: 14px;
   object-fit: cover;
 }
