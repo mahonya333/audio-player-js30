@@ -62,11 +62,37 @@ window.addEventListener("DOMContentLoaded", () => {
       audio.duration;
   });
 
-  playerTimeSlider.addEventListener("touchmove", (e) => {
-    audio.currentTime =
-      (e.offsetX / parseInt(window.getComputedStyle(playerTimeSlider).width)) *
-      audio.duration;
+
+  
+
+  playerTimeSlider.addEventListener("touchstart", (e) => {
+    // Начало перемотки: сохраните начальное положение
+    const touch = e.touches[0];
+    playerTimeSlider.dataset.touchStartX = touch.clientX;
   });
+
+  playerTimeSlider.addEventListener("touchmove", (e) => {
+    // Продолжение перемотки: вычислите смещение и обновите текущее значение
+    const touch = e.touches[0];
+    const touchStartX = parseInt(playerTimeSlider.dataset.touchStartX || 0);
+    const offsetX = touch.clientX - touchStartX;
+  
+    const sliderWidth = parseInt(
+      window.getComputedStyle(playerTimeSlider).width
+    );
+    const duration = audio.duration;
+    const newTime = (offsetX / sliderWidth) * duration;
+  
+    audio.currentTime = newTime;
+  });
+  
+  playerTimeSlider.addEventListener("touchend", () => {
+    // Завершение перемотки: очистите начальное положение
+    playerTimeSlider.removeAttribute("data-touchStartX");
+  });
+
+
+  
 
   audio.addEventListener("loadeddata", () => {
     playerTimeEnd.innerHTML = timeStringGeneration(audio.duration);
