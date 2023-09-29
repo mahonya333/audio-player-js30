@@ -62,6 +62,12 @@ window.addEventListener("DOMContentLoaded", () => {
       audio.duration;
   });
 
+  playerTimeSlider.addEventListener("touchmove", (e) => {
+    audio.currentTime =
+      (e.offsetX / parseInt(window.getComputedStyle(playerTimeSlider).width)) *
+      audio.duration;
+  });
+
   audio.addEventListener("loadeddata", () => {
     playerTimeEnd.innerHTML = timeStringGeneration(audio.duration);
   });

@@ -251,6 +251,7 @@ input[placeholder] {
   cursor: pointer;
   background: var(--main-color);
   -webkit-appearance: none;
+  touch-action: auto;
 }
 
 .player__time-line-slider::-webkit-slider-thumb {
