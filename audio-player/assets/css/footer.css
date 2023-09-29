@@ -1,20 +1,19 @@
 .footer {
-    height: 100px;
-    border-top: 2px solid #19780f;
-    box-shadow: 0 0 20px 2px #19780f;
-    padding: 1rem 0;
-    background: linear-gradient(45deg, #000, 50%, #46b163, 60%, #000, 90%, #46b163);
+    border-top: 2px solid var(--main-color);
+    box-shadow: 0 0 20px 2px var(--main-color);
+    padding: 10px 0;
+    background: linear-gradient(45deg, #000, 50%, var(--main-color-opacity), 60%, #000, 90%, var(--main-color-opacity));
 }
 
 .footer__inner {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 2rem;
+    gap: 20px;
 }
 
 .footer__copy {
-    color: #19780f;
+    color: var(--main-color);
 }
 
 .footer__github {
@@ -23,17 +22,17 @@
 }
 
 .footer__github:hover .footer__github-icon {
-    fill: #19780f;
+    fill: #82b7b5;
 }
 
 .footer__github:hover .footer__github-username {
-    color: #19780f;
+    color: #82b7b5;
 }
 
 .footer__github-icon {
-    width: 3.2rem;
-    height: 3.2rem;
-    margin-right: 1rem;
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
     transition: all 0.3s ease-in-out;
 }
 

@@ -1,109 +1,169 @@
-window.addEventListener('DOMContentLoaded', () => {
-    const audio = new Audio();
-    const playToggleBtn = document.getElementById('playToggleBtn');
-    const nextMusicBtn = document.getElementById('nextMusicBtn');
-    const prevMusicBtn = document.getElementById('prevMusicBtn');
+window.addEventListener("DOMContentLoaded", () => {
+  const audio = new Audio();
+  const musicExecutor = document.getElementById("musicExecutor");
+  const musicName = document.getElementById("musicName");
+  const playToggleBtn = document.getElementById("playToggleBtn");
+  const nextMusicBtn = document.getElementById("nextMusicBtn");
+  const prevMusicBtn = document.getElementById("prevMusicBtn");
 
-    let isPlay = false;
-    let musicVolume = 0.5;
-    const audioWrapper = document.querySelector(".main");
-    const musicImg = document.getElementById("playerMusicImg");
-    let musicCounter = 0;
+  let isPlay = false;
+  let musicVolume = 0.5;
+  const audioWrapper = document.querySelector(".main");
+  const musicImg = document.getElementById("playerMusicImg");
+  let musicCounter = 0;
 
-    const musicArray = [
-        {
-            name: 'Gimle',
-            img: './assets/img/Gealdyr - Gimle.jpg',
-            executor: 'Gealdyr',
-            src: './assets/audio/Gealdyr - Gimle.mp3',
-        },
-        {
-            name: 'Alive',
-            img: './assets/img/Roosevelt - Embrance.jpg',
-            executor: 'Roosevelt',
-            src: './assets/audio/Roosevelt - Alive.mp3',
-        },
-        {
-            name: 'Snake pit poetry',
-            img: './assets/img/Einar Selvik - Snake pit poetry.webp',
-            executor: 'Einar Selvik',
-            src: './assets/audio/Einar Selvik - Snake pit poetry.mp3',
-        }
-    ];
+  let playerTimeSlider = document.getElementById("playerTimeSlider");
+  let playerTimeBegin = document.getElementById("playerTimeBegin");
+  let playerTimeEnd = document.getElementById("playerTimeEnd");
 
-    musicArray.forEach((element, index) => {
-        element.id = index;
-    });
+  const musicArray = [
+    {
+      name: "Gimle",
+      img: "./assets/img/Gealdyr - Gimle.jpg",
+      executor: "Gealdyr",
+      src: "./assets/audio/Gealdyr - Gimle.mp3",
+    },
+    {
+      name: "Snake pit poetry",
+      img: "./assets/img/Einar Selvik - Snake pit poetry.webp",
+      executor: "Einar Selvik",
+      src: "./assets/audio/Einar Selvik - Snake pit poetry.mp3",
+    },
+    {
+      name: "Yggdrasill",
+      img: "./assets/img/Gealdyr - Yggdrasill.jpg",
+      executor: "Gealdyr",
+      src: "./assets/audio/Gealdyr - Yggdrasill.mp3",
+    },
+  ];
 
-    prevMusicBtn.addEventListener('click', playPrev);
-    nextMusicBtn.addEventListener('click', playNext);
+  musicArray.forEach((element, index) => {
+    element.id = index;
+  });
 
-    playToggleBtn.addEventListener("click", () => {
-        if (isPlay) { 
-            pauseAudio();
-        } else {
-            playAudio();
-        }
-    }, false);
+  prevMusicBtn.addEventListener("click", playPrev);
+  nextMusicBtn.addEventListener("click", playNext);
 
-    function playAudio() {
-        playToggleBtn.querySelector('.player__play-img').innerHTML = `<path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z" />`;
-        audio.play();
-        isPlay = true;
+  playToggleBtn.addEventListener(
+    "click",
+    () => {
+      if (isPlay) {
+        pauseAudio();
+      } else {
+        playAudio();
+      }
+    },
+    false
+  );
+
+  playerTimeSlider.addEventListener("click", (e) => {
+    audio.currentTime =
+      (e.offsetX / parseInt(window.getComputedStyle(playerTimeSlider).width)) *
+      audio.duration;
+  });
+
+  audio.addEventListener("loadeddata", () => {
+    playerTimeEnd.innerHTML = timeStringGeneration(audio.duration);
+  });
+
+  audio.addEventListener("ended", () => {
+    playNext();
+  });
+
+  setInterval(() => {
+    overwriteTime();
+  }, 500);
+
+  function timeStringGeneration(duration) {
+    let seconds = parseInt(duration);
+    let minutes = parseInt(seconds / 60);
+
+    return `0${minutes}:${String(seconds % 60).padStart(2, 0)}`;
+  }
+
+  function generateColorTheme() {
+    const root = document.documentElement;
+    let colorRed = Math.floor(Math.random() * (230 - 20 + 1)) + 20;
+    let colorGreen = Math.floor(Math.random() * (230 - 20 + 1)) + 20;
+    let colorBlue = Math.floor(Math.random() * (230 - 20 + 1)) + 20;
+
+    let colorMain = `rgb(${colorRed}, ${colorGreen}, ${colorBlue})`;
+    let colorMainOpacity= `rgb(${colorRed + 20}, ${colorGreen + 20}, ${colorBlue + 20})`;
+
+    root.style.setProperty("--main-color", colorMain);
+    root.style.setProperty("--main-color-opacity", colorMainOpacity);
+  }
+
+  function overwriteTime() {
+    playerTimeSlider.value = (audio.currentTime / audio.duration) * 100;
+    playerTimeBegin.innerHTML = timeStringGeneration(audio.currentTime);
+  }
+
+  function playAudio() {
+    playToggleBtn.querySelector(
+      ".player__play-img"
+    ).innerHTML = `<path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z" />`;
+    audio.play();
+    isPlay = true;
+  }
+
+  function pauseAudio() {
+    playToggleBtn.querySelector(
+      ".player__play-img"
+    ).innerHTML = `<path fill="currentColor" d="M8,5.14V19.14L19,12.14L8,5.14Z" />`;
+    audio.pause();
+    isPlay = false;
+  }
+
+  function playNext() {
+    musicCounter++;
+
+    if (musicCounter > musicArray.length - 1) {
+      musicCounter = 0;
     }
 
-    function pauseAudio() {
-        playToggleBtn.querySelector('.player__play-img').innerHTML = `<path fill="currentColor" d="M8,5.14V19.14L19,12.14L8,5.14Z" />`;
-        audio.pause();
-        isPlay = false;
-    }
-
-    function playNext() {
-        musicCounter++;
-
-        if (musicCounter > musicArray.length - 1) {
-            musicCounter = 0;
-        }
-
-        initializtionContent();
-
-        if(isPlay) {
-            playAudio();
-        }
-    }
-
-    function playPrev() {
-        musicCounter--;
-
-        if (musicCounter < 0) {
-            musicCounter = musicArray.length - 1
-        }
-
-        initializtionContent();
-
-        if(isPlay) {
-            playAudio();
-        }
-    }
-
-    function initializtionContent() {
-        musicImg.src = musicArray[musicCounter].img;
-        audioWrapper.style.backgroundImage = `url('${musicArray[musicCounter].img}')`;
-
-        audio.src = musicArray[musicCounter].src;
-        audio.currentTime = 0;
-    }
-    
     initializtionContent();
+
+    if (isPlay) {
+      playAudio();
+    }
+  }
+
+  function playPrev() {
+    musicCounter--;
+
+    if (musicCounter < 0) {
+      musicCounter = musicArray.length - 1;
+    }
+
+    initializtionContent();
+
+    if (isPlay) {
+      playAudio();
+    }
+  }
+
+  function initializtionContent() {
+    musicExecutor.textContent = musicArray[musicCounter].executor;
+    musicName.textContent = musicArray[musicCounter].name;
+    musicImg.src = musicArray[musicCounter].img;
+    audioWrapper.style.backgroundImage = `url('${musicArray[musicCounter].img}')`;
+    audioWrapper.style.backgroundImage = `url('${musicArray[musicCounter].img}')`;
+    audioWrapper.style.backgroundImage = `url('${musicArray[musicCounter].img}')`;
+
+    audio.src = musicArray[musicCounter].src;
+    audio.currentTime = 0;
+
+    generateColorTheme();
+  }
+
+  initializtionContent();
 });
 
 /* audio.addEventListener("loadeddata", () => {
     audioPlayer.querySelector(".time .length").textContent = getTimeCodeFromNum(audio.duration);
     audio.volume = musicVolume;
 }, false); */
-
-
-
 
 // Possible improvements:
 // - Change timeline and volume slider into input sliders, reskinned
